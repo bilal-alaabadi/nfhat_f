@@ -5,7 +5,7 @@ import CartModal from '../pages/shop/CartModal';
 import avatarImg from "../assets/avatar.png";
 import { useLogoutUserMutation } from '../redux/features/auth/authApi';
 import { logout } from '../redux/features/auth/authSlice';
-import log from "../assets/_º_ä_____º__-removebg-preview.png";
+import log from "../assets/ChatGPT Image Aug 4, 2025, 04_59_50 PM.png";
 import { setCountry } from '../redux/features/cart/cartSlice';
 
 const Navbar = () => {
@@ -36,9 +36,9 @@ const Navbar = () => {
 
     const userMenus = [
         { label: "لوحة التحكم", path: "/dashboard" },
-        // { label: "الملف الشخصي", path: "/dashboard/profile" },
-        // { label: "المدفوعات", path: "/dashboard/payments" },
-        // { label: "الطلبات", path: "/dashboard/orders" },
+        { label: "الملف الشخصي", path: "/dashboard/profile" },
+        { label: "المدفوعات", path: "/dashboard/payments" },
+        { label: "الطلبات", path: "/dashboard/orders" },
     ];
 
     const dropdownMenus = user?.role === 'admin' ? adminMenus : userMenus;
@@ -77,7 +77,7 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-4" dir='rtl'>
+                    <div className="flex items-center gap-4">
                         {user ? (
                             <div className="relative">
                                 <img
@@ -86,31 +86,6 @@ const Navbar = () => {
                                     alt="صورة المستخدم"
                                     className="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-200"
                                 />
-                                {isDropDownOpen && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                                        <ul className="py-2">
-                                            {dropdownMenus.map((menu, index) => (
-                                                <li key={index}>
-                                                    <Link
-                                                        to={menu.path}
-                                                        onClick={() => setIsDropDownOpen(false)}
-                                                        className="block px-4 py-3 text-lg text-gray-700 hover:bg-gray-100 transition-colors"
-                                                    >
-                                                        {menu.label}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                            <li>
-                                                <button
-                                                    onClick={handleLogout}
-                                                    className="block w-full text-right px-4 py-3 text-lg text-gray-700 hover:bg-gray-100 transition-colors"
-                                                >
-                                                    تسجيل الخروج
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                )}
                             </div>
                         ) : (
                             <Link to="/login" className="text-[#4E5A3F] text-2xl">
@@ -135,14 +110,14 @@ const Navbar = () => {
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center justify-between h-20 pb-7">
                     <div className="flex items-center gap-8">
-                        <select
+                        {/* <select
                             value={country}
                             onChange={handleCountryChange}
                             className="p-2 border rounded-md text-[#4E5A3F] bg-white"
                         >
                             <option value="عمان">عمان (ر.ع.)</option>
                             <option value="الإمارات">الإمارات (د.إ)</option>
-                        </select>
+                        </select> */}
                        
                         <button 
                             onClick={handleCartToggle}
@@ -167,7 +142,7 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-4" dir='rtl'>
+                    <div className="flex items-center gap-4">
                         {user ? (
                             <div className="relative">
                                 <img
@@ -223,7 +198,8 @@ const Navbar = () => {
                             الصفحة الرئيسية
                         </Link>
                         <Link to="/about" className="text-[#4E5A3F] hover:text-[#9B2D1F] font-bold text-xl transition-colors">
-                            قصة حناء برغند
+                                                         Beauty 24 قصة
+ 
                         </Link>
                     </div>
                 </nav>
@@ -240,14 +216,14 @@ const Navbar = () => {
                             <i className="ri-close-line"></i>
                         </button>
                         
-<select
-    value={country}
-    onChange={handleCountryChange}
-    className="w-full p-3 text-lg border-2 border-[#4E5A3F] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#9B2D1F] focus:border-transparent"
->
-    <option value="عمان">عمان 🇴🇲 (ر.ع.)</option>
-    <option value="الإمارات">الإمارات 🇦🇪 (د.إ)</option>
-</select>
+                        {/* <select
+                            value={country}
+                            onChange={handleCountryChange}
+                            className="w-full p-2 border rounded-md text-[#4E5A3F] bg-white"
+                        >
+                            <option value="عمان">عمان (ر.ع.)</option>
+                            <option value="الإمارات">الإمارات (د.إ)</option>
+                        </select> */}
                         
                         <Link 
                             to="/shop" 
@@ -268,13 +244,13 @@ const Navbar = () => {
                             onClick={handleMobileMenuToggle}
                             className="w-full text-center py-4 px-6 font-medium text-xl text-[#4E5A3F] hover:text-[#9B2D1F] rounded-lg transition-all duration-300"
                         >
-                            قصة حناء برغند
+                             Beauty 24 قصة
                         </Link>
                     </div>
                 </div>
             </div>
 
-            {/* Cart Modal */} 
+            {/* Cart Modal */}
             {isCartOpen && (
                 <CartModal 
                     products={products} 

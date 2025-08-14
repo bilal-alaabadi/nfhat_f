@@ -8,19 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 const categories = [
     { label: 'أختر منتج', value: '' },
-    { label: 'حناء بودر', value: 'حناء بودر' },
-    { label: 'سدر بودر', value: 'سدر بودر' },
-    { label: 'أعشاب تكثيف وتطويل الشعر', value: 'أعشاب تكثيف وتطويل الشعر' },
-    { label: 'مشاط', value: 'مشاط' },
-    { label: 'خزامى', value: 'خزامى' },
-    { label: 'كركديه', value: 'كركديه' },
-    { label: 'إكليل الجبل', value: 'إكليل الجبل' }
-];
-
-const sizes = [
-    { label: 'اختر الحجم', value: '' },
-    { label: '1 كيلو', value: '1 كيلو' },
-    { label: '500 جرام', value: '500 جرام' }
+    { label: 'فازلين زيت الزيتون', value: 'فازلين زيت الزيتون' },
+    { label: 'بودرة مزيل رائحة العرق', value: 'بودرة مزيل رائحة العرق' },
+    { label: 'كريم مزيل رائحة العرق', value: 'كريم تكثيف وتطويل الشعر' },
+    { label: 'كريم الشعر', value: 'كريم الشعر' },
+    { label: 'بودرة مسك العود للجسم', value: 'بودرة مسك العود للجسم' },
+    { label: 'بودرة الزعفران و الصندل و المحلب للجسم', value: 'بودرة الزعفران و الصندل و المحلب للجسم' },
 ];
 
 const AddProduct = () => {
@@ -29,27 +22,14 @@ const AddProduct = () => {
     const [product, setProduct] = useState({
         name: '',
         category: '',
-        size: '',
+        // color: '',
         price: '',
-        description: '',
-        oldPrice: ''
+        description: ''
     });
-    
-    const [showSizeField, setShowSizeField] = useState(false);
-    const [image, setImage] = useState([]);
+    const [image, setImage] = useState([]); // مصفوفة لحفظ روابط الصور
 
     const [AddProduct, { isLoading, error }] = useAddProductMutation();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // إظهار حقل الحجم فقط عند اختيار حناء بودر
-        setShowSizeField(product.category === 'حناء بودر');
-        
-        // إعادة تعيين الحجم عند تغيير الفئة
-        if (!showSizeField) {
-            setProduct(prev => ({ ...prev, size: '' }));
-        }
-    }, [product.category]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,45 +41,18 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // التحقق من الحقول المطلوبة
-        const requiredFields = {
-            'أسم المنتج': product.name,
-            'صنف المنتج': product.category,
-            'السعر': product.price,
-            'الوصف': product.description,
-            'الصور': image.length > 0
-        };
-        
-        // إذا كانت الفئة هي الحناء، نتحقق من وجود الحجم
-        if (product.category === 'حناء بودر' && !product.size) {
-            alert('الرجاء اختيار الحجم للحناء');
-            return;
-        }
-
-        // التحقق من جميع الحقول المطلوبة
-        const missingFields = Object.entries(requiredFields)
-            .filter(([_, value]) => !value)
-            .map(([field]) => field);
-
-        if (missingFields.length > 0) {
-            alert(`الرجاء ملء الحقول التالية: ${missingFields.join('، ')}`);
+        if (!product.name || !product.category || !product.price || !product.description ||  image.length === 0) {
+            alert('أملأ كل الحقول');
             return;
         }
 
         try {
-            await AddProduct({ 
-                ...product, 
-                image, 
-                author: user?._id 
-            }).unwrap();
-            
+            await AddProduct({ ...product, image, author: user?._id }).unwrap();
             alert('تمت أضافة المنتج بنجاح');
             setProduct({
                 name: '',
                 category: '',
-                size: '',
-                 oldPrice: '',
+                // color: '',
                 price: '',
                 description: ''
             });
@@ -107,7 +60,6 @@ const AddProduct = () => {
             navigate("/shop");
         } catch (error) {
             console.log("Failed to submit product", error);
-            alert('حدث خطأ أثناء إضافة المنتج');
         }
     };
 
@@ -122,7 +74,6 @@ const AddProduct = () => {
                     value={product.name}
                     onChange={handleChange}
                 />
-                
                 <SelectInput
                     label="صنف المنتج"
                     name="category"
@@ -130,24 +81,13 @@ const AddProduct = () => {
                     onChange={handleChange}
                     options={categories}
                 />
-                
-                {showSizeField && (
-                    <SelectInput
-                        label="حجم الحناء"
-                        name="size"
-                        value={product.size}
-                        onChange={handleChange}
-                        options={sizes}
-                    />
-                )}
-            <TextInput
-                    label="السعر القديم (اختياري)"
-                    name="oldPrice"
-                    type="number"
-                    placeholder="100"
-                    value={product.oldPrice}
+                {/* <SelectInput
+                    label="Color"
+                    name="color"
+                    value={product.color}
                     onChange={handleChange}
-                />
+                    options={colors}
+                /> */}
                 <TextInput
                     label="السعر"
                     name="price"
@@ -156,34 +96,24 @@ const AddProduct = () => {
                     value={product.price}
                     onChange={handleChange}
                 />
-                
                 <UploadImage
                     name="image"
                     id="image"
                     setImage={setImage}
                 />
-                
                 <div>
-                    <label htmlFor="description" className='block text-sm font-medium text-gray-700'>
-                        وصف المنتج
-                    </label>
+                    <label htmlFor="description" className='block text-sm font-medium text-gray-700'>وصف المنتج</label>
                     <textarea
                         name="description"
                         id="description"
                         className='add-product-InputCSS'
                         value={product.description}
-                        placeholder='اكتب وصف المنتج'
+                        placeholder='Write a product description'
                         onChange={handleChange}
-                        rows={4}
                     ></textarea>
                 </div>
-                
                 <div>
-                    <button 
-                        type='submit' 
-                        className='add-product-btn' 
-                        disabled={isLoading}
-                    >
+                    <button type='submit' className='add-product-btn' disabled={isLoading}>
                         {isLoading ? "جاري الإضافة..." : "أضف منتج"}
                     </button>
                 </div>

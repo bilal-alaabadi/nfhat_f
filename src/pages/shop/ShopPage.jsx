@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ProductCards from './ProductCards';
 import ShopFiltering from './ShopFiltering';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
-import imge from "../../assets/Untitled-2-with-text (1).png";
+import imge from "../../assets/04.png";
 
 const filters = {
-    categories: ['الكل', 'حناء بودر', 'سدر بودر', 'أعشاب تكثيف وتطويل الشعر', 'مشاط', 'خزامى', 'كركديه', 'إكليل الجبل'],
+    categories: ['الكل', 'فازلين زيت الزيتون', 'بودرة مزيل رائحة العرق', 'كريم مزيل رائحة العرق', 'كريم الشعر', 'بودرة مسك العود للجسم', 'بودرة الزعفران و الصندل و المحلب للجسم'],
     sizes: ['1 كيلو', '500 جرام']
 };
 
