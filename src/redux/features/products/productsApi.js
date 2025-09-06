@@ -17,6 +17,7 @@ const productsApi = createApi({
         minPrice,
         maxPrice,
         search,
+        size,               // ✅ دعم الحجم في الفلترة
         sort = "createdAt:desc",
         page = 1,
         limit = 10,
@@ -28,6 +29,7 @@ const productsApi = createApi({
         };
 
         if (category && category !== "الكل") params.category = category;
+        if (size) params.size = size;                  // ✅ إضافة الحجم
         if (gender) params.gender = gender;
         if (minPrice) params.minPrice = minPrice;
         if (maxPrice) params.maxPrice = maxPrice;
@@ -50,30 +52,34 @@ const productsApi = createApi({
           : ["ProductList"],
     }),
 
-fetchProductById: builder.query({
-  query: (id) => `/product/${id}`, // تغيير المسار هنا
-  transformResponse: (response) => {
-    if (!response?.product) {
-      throw new Error('المنتج غير موجود');
-    }
-    
-    const { product } = response;
-    return {
-      _id: product._id,
-      name: product.name,
-      category: product.category,
-      size: product.size || '',
-      price: product.price,
-      oldPrice: product.oldPrice || '',
-      description: product.description,
-      image: Array.isArray(product.image) ? product.image : [product.image],
-      author: product.author
-    };
-  },
-  providesTags: (result, error, id) => [{ type: "Product", id }],
-}),
+    // جلب منتج واحد
+    fetchProductById: builder.query({
+      query: (id) => `/product/${id}`,
+      transformResponse: (response) => {
+        if (!response?.product) {
+          throw new Error('المنتج غير موجود');
+        }
+        const p = response.product;
+        // ✅ أعده بصيغة { product: {...} } لتتوافق مع الكمبوننت
+        return {
+          product: {
+            _id: p._id,
+            name: p.name,
+            category: p.category,
+            size: p.size || '',
+            price: p.price,
+            oldPrice: p.oldPrice ?? '',
+            description: p.description,
+            image: Array.isArray(p.image) ? p.image : (p.image ? [p.image] : []),
+            author: p.author,
+          },
+          reviews: response.reviews ?? [],
+        };
+      },
+      providesTags: (result, error, id) => [{ type: "Product", id }],
+    }),
 
-    // جلب المنتجات المرتبطة (منتجات مشابهة)
+    // جلب المنتجات المرتبطة
     fetchRelatedProducts: builder.query({
       query: (id) => `/related/${id}`,
       providesTags: (result, error, id) => [
@@ -124,8 +130,8 @@ fetchProductById: builder.query({
       transformResponse: (response) => {
         return response.map(product => ({
           ...product,
-          price: product.category === 'حناء بودر' 
-            ? product.price 
+          price: product.category === 'حناء بودر'
+            ? product.price
             : product.regularPrice,
           images: Array.isArray(product.image) ? product.image : [product.image],
         }));
@@ -139,7 +145,7 @@ fetchProductById: builder.query({
           : ["ProductList"],
     }),
 
-    // جلب المنتجات الأكثر مبيعاً
+    // الأكثر مبيعاً
     fetchBestSellingProducts: builder.query({
       query: (limit = 4) => `/best-selling?limit=${limit}`,
       providesTags: ["ProductList"],
