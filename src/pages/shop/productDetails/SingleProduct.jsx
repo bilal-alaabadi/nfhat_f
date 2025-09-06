@@ -149,7 +149,7 @@ const SingleProduct = () => {
                                 e.stopPropagation();
                                 handleAddToCart(singleProduct);
                             }}
-                            className={`mt-6 px-6 py-3 bg-[#3D4B2E] text-white rounded-md hover:bg-[#4E5A3F] transition-all duration-200 relative overflow-hidden ${
+                            className={`mt-6 px-6 py-3 bg-[#d3ae27]  text-white rounded-md  transition-all duration-200 relative overflow-hidden ${
                                 isAddingToCart ? 'bg-green-600' : ''
                             }`}
                         >

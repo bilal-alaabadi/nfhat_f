@@ -38,7 +38,7 @@ const OrderSummary = ({ onClose }) => {
     };
 
     return (
-        <div className='bg-[#758d64] mt-5 rounded text-base' >
+        <div className='bg-[#e9b86b]  mt-5 rounded text-base' >
             <div className='px-6 py-4 space-y-5'>
                 <h2 className='text-xl text-white'>ملخص الطلب</h2>
                 

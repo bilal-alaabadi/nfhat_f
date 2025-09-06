@@ -88,7 +88,7 @@ const ProductCards = ({ products }) => {
                                     handleAddToCart(product._id, product);
                                 }}
                                 className={`p-2 text-white rounded-full shadow-md transition-all duration-300 ${
-                                    addedItems[product._id] ? 'bg-green-500' : 'bg-[#3D4B2E] hover:bg-[#4E5A3F]'
+                                    addedItems[product._id] ? 'bg-green-500' : 'bg-[#d3ae27]  hover:bg-[#d3ae27] '
                                 }`}
                             >
                                 {addedItems[product._id] ? (

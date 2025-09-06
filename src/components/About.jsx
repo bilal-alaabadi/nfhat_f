@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import perfumeImg from '../assets/Untitled-1-2.png';
 
 const About = () => {
   return (

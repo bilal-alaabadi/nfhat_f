@@ -60,7 +60,7 @@ const ShopFiltering = ({filters, filtersState, setFiltersState, clearFilters}) =
         {/* مسح الفلاتر */}
         <button 
             onClick={clearFilters} 
-            className='bg-[#3D4B2E] hover:bg-[#4E5A3F] py-1 px-4 text-white rounded'
+            className='bg-[#d3ae27]   py-1 px-4 text-white rounded'
         >
             مسح كل الفلاتر
         </button>
